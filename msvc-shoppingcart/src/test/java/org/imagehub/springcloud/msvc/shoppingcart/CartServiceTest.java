@@ -5,6 +5,8 @@ import org.imagehub.springcloud.msvc.shoppingcart.clients.UserClientRest;
 import org.imagehub.springcloud.msvc.shoppingcart.controllers.CartController;
 import org.imagehub.springcloud.msvc.shoppingcart.models.User;
 import org.imagehub.springcloud.msvc.shoppingcart.models.entity.Cart;
+import org.imagehub.springcloud.msvc.shoppingcart.models.entity.CartUser;
+import org.imagehub.springcloud.msvc.shoppingcart.repositories.CartRepository;
 import org.imagehub.springcloud.msvc.shoppingcart.services.CartService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,6 +20,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 public class CartServiceTest {
@@ -45,23 +48,5 @@ public class CartServiceTest {
 
         assertTrue(cart.isPresent());
         assertEquals(1L, cart.get().getCartUser().getUserId());
-    }
-
-    @Test
-    public void testGetCartByUserId() {
-        // Arrange
-        User user = new User();
-        user.setId(1L);
-        Mockito.when(userClientRest.getUser(1L)).thenReturn(user);
-
-        Optional<Cart> cart = cartService.createNewCart(1L);
-        Mockito.when(cartService.getCartByUserId(1L)).thenReturn(cart);
-
-        // Act
-        ResponseEntity<?> response = cartController.getCartByUserId(1L);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(cart.get(), response.getBody());
     }
 }

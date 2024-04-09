@@ -30,6 +30,12 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional()
     public Optional<Cart> createNewCart(Long userId) {
+
+        Optional<Cart> existingCart = repository.findByCartUserUserId(userId);
+        if (existingCart.isPresent()) {
+            return existingCart;
+        }
+
         Cart cart = new Cart();
 
         User userMvsc = userClientRest.getUser(userId);

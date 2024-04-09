@@ -27,7 +27,7 @@ public class CartController {
         try{
             o = service.createNewCart(userId);
         }catch(FeignException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "Don't exist user with this id or error with the user service: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "Don't exist any user with this id or error with the user service: " + e.getMessage()));
         }
 
         if(o.isPresent()){
@@ -38,7 +38,7 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Cart>> listCarts() {
+    public ResponseEntity<List<Cart >> listCarts() {
         return ResponseEntity.ok(service.listCarts());
     }
 

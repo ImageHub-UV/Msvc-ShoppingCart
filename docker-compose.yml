@@ -17,9 +17,9 @@ services:
   msvc-shoppingcart:
     container_name: msvc-shoppingcart
     image: carloshot007/msvc-shoppingcart:latest
-    build:
-      context: ./
-      dockerfile: ./msvc-shoppingcart/Dockerfile
+    # build:
+    #   context: ./
+    #   dockerfile: ./msvc-shoppingcart/Dockerfile
     ports:
       - '8002:8002'
     # env_file: ./msvc-shoppingcart/.env
@@ -29,8 +29,8 @@ services:
       DB_DATABASE: msvc_shoppingcart
       DB_USERNAME: postgres
       DB_PASSWORD: root
-      MSVC_USERS_URL: msvc-users:8002
-      MSVC_IMAGES_URL: msvc-images:8002
+      MSVC_USERS_URL: msvc-users:8001
+      MSVC_IMAGES_URL: msvc-images:8003
     networks:
       - imagehub
     depends_on:

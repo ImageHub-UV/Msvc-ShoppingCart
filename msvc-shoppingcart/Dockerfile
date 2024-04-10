@@ -31,9 +31,7 @@ ARG TARGET_FOLFER=/app/${MSVC_NAME}/target
 
 COPY --from=builder $TARGET_FOLFER/msvc-shoppingcart-0.0.1-SNAPSHOT.jar .
 
-ARG PORT_APP=8002
-ENV PORT $PORT_APP
-EXPOSE $PORT
+EXPOSE 8002
 
 CMD ["java", "-jar", "msvc-shoppingcart-0.0.1-SNAPSHOT.jar"]
 

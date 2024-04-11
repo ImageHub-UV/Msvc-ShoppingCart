@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: msvc-shoppingcart
+data:
+  port: "8002"
+  db_host: "postgres14:5432"
+  database: msvc_shoppingcart
+  username: postgres
+  password: root
+  msvc_users_url: "msvc-users:8001"
+  msvc_images_url: "msvc-images:8003"
+

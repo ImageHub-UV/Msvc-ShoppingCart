@@ -19,16 +19,37 @@ spec:
             - containerPort: 8002
           env:
             - name: PORT
-              value: "8002"
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-shoppingcart
+                  key: port
             - name: DB_HOST
-              value: "postgres14:5432"
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-shoppingcart
+                  key: db_host
             - name: DB_DATABASE
-              value: msvc_shoppingcart
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-shoppingcart
+                  key: database
             - name: DB_USERNAME
-              value: postgres
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-shoppingcart
+                  key: username
             - name: DB_PASSWORD
-              value: root
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-shoppingcart
+                  key: password
             - name: MSVC_USERS_URL
-              value: "msvc-users:8001"
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-shoppingcart
+                  key: msvc_users_url
             - name: MSVC_IMAGES_URL
-              value: "msvc-images:8003"
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-shoppingcart
+                  key: msvc_images_url

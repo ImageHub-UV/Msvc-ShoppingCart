@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: msvc-shoppingcart
+          uri: lb://msvc-shoppingcart
+          predicates:
+            - Path=/api/shoppingcart/**
+          filters:
+            - StripPrefix=2

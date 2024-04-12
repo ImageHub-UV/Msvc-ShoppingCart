@@ -11,7 +11,7 @@ data:
   msvc_users_url: "msvc-users:8001"
   msvc_images_url: "msvc-images:8003"
   active_profile: "dev"
-  application.yaml: |-
+  application.yml: |-
     config:
       texto: "Texto de prueba"
     ---

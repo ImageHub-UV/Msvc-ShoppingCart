@@ -13,16 +13,29 @@ spec:
         app: msvc-shoppingcart
     spec:
       containers:
-        - name: shoppingcart
-          image: carloshot007/msvc-shoppingcart
+        - image: carloshot007/msvc-shoppingcart:latest
+          name: shoppingcart
           ports:
             - containerPort: 8002
           env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
             - name: PORT
               valueFrom:
                 configMapKeyRef:
                   name: msvc-shoppingcart
                   key: port
+            - name: ACTIVEPROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-shoppingcart
+                  key: active_profile
             - name: DB_HOST
               valueFrom:
                 configMapKeyRef:
@@ -53,3 +66,26 @@ spec:
                 configMapKeyRef:
                   name: msvc-shoppingcart
                   key: msvc_images_url
+          # readinessProbe:
+          #   httpGet:
+          #     path: /actuator/health/readiness
+          #     port: 8002
+          #     scheme: HTTP
+          #   initialDelaySeconds: 5 # Supone que el contenedor tarda 5 segundos en estar listo
+          #   periodSeconds: 20 # Cada 20 segundos se ejecuta la prueba de readiness, es decir, cada 20 segundos se verifica si el contenedor esta listo
+          #   timeoutSeconds: 10 # Si la prueba de readiness tarda mas de 10 segundo, se considera fallida
+          # livenessProbe:
+          #   httpGet:
+          #     path: /actuator/health/liveness
+          #     port: 8002
+          #     scheme: HTTP
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 30
+          #   timeoutSeconds: 10
+          # resources:
+          #   requests:
+          #     memory: "800Mi"
+          #     cpu: "500m"
+          #   limits:
+          #     memory: "1000Mi"
+          #    cpu: "800m"

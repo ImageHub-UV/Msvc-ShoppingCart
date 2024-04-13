@@ -73,7 +73,7 @@ public class CartServiceImpl implements CartService {
     public void deleteCartByUserId(Long userId) {
         repository.deleteByCartUserUserId(userId);
     }
-
+    
     @Override
     @Transactional
     public Optional<Image> assignImageToCart(Image image, Long userId) {

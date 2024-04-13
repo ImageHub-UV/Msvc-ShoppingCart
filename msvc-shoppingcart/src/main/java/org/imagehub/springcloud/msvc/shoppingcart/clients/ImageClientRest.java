@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient(name="msvc-images") // Have to be identical to the name of the service
+@FeignClient(name="getial") // Have to be identical to the name of the service
 public interface ImageClientRest  {
-
-    @GetMapping("/images/{id}") //Have to be identical to the path of the service
+    @GetMapping("/{id}") //Have to be identical to the path of the service
     Image getImage(@PathVariable Long id);
 }

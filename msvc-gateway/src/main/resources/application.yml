@@ -8,3 +8,9 @@ spring:
             - Path=/api/shoppingcart/**
           filters:
             - StripPrefix=2
+        - id: getial
+          uri: lb://getial
+          predicates:
+            - Path=/api/getial/**
+          filters:
+            - StripPrefix=2

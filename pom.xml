@@ -19,7 +19,6 @@
 
     <modules>
         <module>msvc-shoppingcart</module>
-        <module>msvc-gateway</module>
     </modules>
 
     <name>Archetype - imageHub</name>

@@ -5,22 +5,17 @@ import org.imagehub.springcloud.msvc.shoppingcart.clients.UserClientRest;
 import org.imagehub.springcloud.msvc.shoppingcart.controllers.CartController;
 import org.imagehub.springcloud.msvc.shoppingcart.models.User;
 import org.imagehub.springcloud.msvc.shoppingcart.models.entity.Cart;
-import org.imagehub.springcloud.msvc.shoppingcart.models.entity.CartUser;
-import org.imagehub.springcloud.msvc.shoppingcart.repositories.CartRepository;
 import org.imagehub.springcloud.msvc.shoppingcart.services.CartService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 public class CartServiceTest {

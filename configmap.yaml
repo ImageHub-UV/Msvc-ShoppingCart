@@ -11,20 +11,3 @@ data:
   msvc_users_url: "msvc-users:8001"
   msvc_images_url: "msvc-images:8003"
   active_profile: "dev"
-  application.yml: |-
-    config:
-      texto: "Texto de prueba"
-    ---
-    spring:
-      config:
-        activate:
-          on-profile: dev
-    config:
-      texto: "Configurando ambiente de desarrollo"
-    ---
-    spring:
-      config:
-        activate:
-          on-profile: prod
-    config:
-        texto: "Configurando ambiente de produccion"

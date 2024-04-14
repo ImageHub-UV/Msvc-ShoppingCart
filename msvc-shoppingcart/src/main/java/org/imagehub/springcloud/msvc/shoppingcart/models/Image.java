@@ -1,10 +1,5 @@
 package org.imagehub.springcloud.msvc.shoppingcart.models;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.PastOrPresent;
-
-import java.util.Date;
 
 public class Image {
     /*

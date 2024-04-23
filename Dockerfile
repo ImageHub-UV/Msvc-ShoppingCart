@@ -6,16 +6,15 @@ ARG MSVC_NAME
 
 WORKDIR /app/${MSVC_NAME}
 
-COPY ./pom.xml /app
-COPY ./${MSVC_NAME}/.mvn ./.mvn
-COPY ./${MSVC_NAME}/mvnw .
-COPY ./${MSVC_NAME}/mvnw.cmd .
-COPY ./${MSVC_NAME}/pom.xml .
+COPY ./.mvn ./.mvn
+COPY ./mvnw .
+COPY ./mvnw.cmd .
+COPY ./pom.xml .
 
-RUN ./mvnw clean package -Dmaven.test.skip -Dmaven.main.skip -Dspring-boot.repackage.skip && rm -r ./target
-# RUN ./mvnw dependency:go-offline
+# RUN ./mvnw clean package -Dmaven.test.skip -Dmaven.main.skip -Dspring-boot.repackage.skip && rm -r ./target
+RUN ./mvnw dependency:go-offline
 
-COPY ./${MSVC_NAME}/src ./src
+COPY ./src ./src
 
 RUN ./mvnw clean package -DskipTests
 

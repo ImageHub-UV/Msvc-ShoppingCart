@@ -1,5 +1,6 @@
 package org.imagehub.springcloud.msvc.shoppingcart.services;
 
+
 import org.imagehub.springcloud.msvc.shoppingcart.clients.ImageClientRest;
 import org.imagehub.springcloud.msvc.shoppingcart.clients.UserClientRest;
 import org.imagehub.springcloud.msvc.shoppingcart.models.Image;
@@ -73,7 +74,7 @@ public class CartServiceImpl implements CartService {
     public void deleteCartByUserId(Long userId) {
         repository.deleteByCartUserUserId(userId);
     }
-    
+
     @Override
     @Transactional
     public Optional<Image> assignImageToCart(Image image, Long userId) {

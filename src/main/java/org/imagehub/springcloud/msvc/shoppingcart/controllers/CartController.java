@@ -6,9 +6,6 @@ import org.imagehub.springcloud.msvc.shoppingcart.models.Image;
 import org.imagehub.springcloud.msvc.shoppingcart.models.entity.Cart;
 import org.imagehub.springcloud.msvc.shoppingcart.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,16 +19,6 @@ public class CartController {
     @Autowired
     private CartService service;
 
-    @Autowired
-    private ApplicationContext context;
-
-    @Autowired
-    private Environment env;
-
-    @GetMapping("/crash")
-    public void crash() {
-        ((ConfigurableApplicationContext)context).close(); //Simulate a crash int the application. Kubernetes will restart it.
-    }
 
     @PostMapping("/createNewCartByUser/{userId}")
     public ResponseEntity<?> createNewCartByUser(@PathVariable Long userId) {
@@ -61,15 +48,6 @@ public class CartController {
      * return Collections.singletonMap("carts", service.listCarts());
      * }
      */
-
-    @GetMapping("/get2")
-    public ResponseEntity<?> listCarts2() {
-        Map<String, Object> body = new HashMap<>();
-        body.put("carts", service.listCarts());
-        body.put("podinfo", env.getProperty("MY_POD_NAME") + ": " + env.getProperty("MY_POD_IP"));
-        body.put("texto", env.getProperty("config.texto"));
-        return ResponseEntity.ok(body);
-    }
 
     @GetMapping("/getCartByUserId/{userId}")
     public ResponseEntity<?> getCartByUserId(@PathVariable Long userId) {

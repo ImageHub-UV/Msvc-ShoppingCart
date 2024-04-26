@@ -5,7 +5,7 @@ metadata:
   name: read-endpoints-services
 rules:
 - apiGroups: [""]
-  resources: ["endpoints", "services"]
+  resources: ["endpoints", "services", "pods"]
   verbs: ["get", "watch", "list"]
 ---
 kind: RoleBinding

@@ -9,7 +9,6 @@ import org.imagehub.springcloud.msvc.shoppingcart.models.entity.Cart;
 import org.imagehub.springcloud.msvc.shoppingcart.models.entity.CartImage;
 import org.imagehub.springcloud.msvc.shoppingcart.models.entity.CartUser;
 import org.imagehub.springcloud.msvc.shoppingcart.repositories.CartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +17,19 @@ import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
-
-    @Autowired
     private CartRepository repository;
-
-    @Autowired
     private ImageClientRest imageClientRest;
-
-    @Autowired
     private UserClientRest userClientRest;
+
+
+    public CartServiceImpl(CartRepository repository,
+                            ImageClientRest imageClientRest,
+                            UserClientRest userClientRest) {
+        this.repository = repository;
+        this.imageClientRest = imageClientRest;
+        this.userClientRest = userClientRest;
+    }
+
 
     @Override
     @Transactional()
@@ -42,7 +45,7 @@ public class CartServiceImpl implements CartService {
         User userMvsc = userClientRest.getUser(userId);
 
         CartUser cartUser = new CartUser();
-        cartUser.setUserId(userMvsc.getId());
+        cartUser.setUserId(userMvsc.id());
 
         cart.setCartUser(cartUser);
 
@@ -77,14 +80,14 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public Optional<Image> assignImageToCart(Image image, Long userId) {
+    public Optional<Image> assignImageToCart(Long imageId, Long userId) { // TODO: Image a Image id
         Optional<Cart> o = repository.findByCartUserUserId(userId);
         if(o.isPresent()){
-            Image imageMsvc = imageClientRest.getImage(image.getImage_id());
+            Image imageMsvc = imageClientRest.getImage(imageId);
 
             Cart cart = o.get();
             CartImage cartImage = new CartImage();
-            cartImage.setImageId(imageMsvc.getImage_id());
+            cartImage.setImageId(imageMsvc.image_id());
 
             cart.addCartImage(cartImage);
             repository.save(cart);
@@ -100,11 +103,11 @@ public class CartServiceImpl implements CartService {
     public Optional<Image> deleteImageFromCart(Image image, Long userId) {
         Optional<Cart> o = repository.findByCartUserUserId(userId);
         if(o.isPresent()){
-            Image imageMsvc = imageClientRest.getImage(image.getImage_id());
+            Image imageMsvc = imageClientRest.getImage(image.image_id());
 
             Cart cart = o.get();
             CartImage cartImage = new CartImage();
-            cartImage.setImageId(imageMsvc.getImage_id());
+            cartImage.setImageId(imageMsvc.image_id());
 
             cart.removeCartImage(cartImage);
             repository.save(cart);

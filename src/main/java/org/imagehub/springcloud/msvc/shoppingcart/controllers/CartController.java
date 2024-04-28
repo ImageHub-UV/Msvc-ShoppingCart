@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import org.imagehub.springcloud.msvc.shoppingcart.models.Image;
 import org.imagehub.springcloud.msvc.shoppingcart.models.entity.Cart;
 import org.imagehub.springcloud.msvc.shoppingcart.services.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,11 +14,15 @@ import java.util.*;
 
 @RestController
 public class CartController {
-
-    @Autowired
-    private CartService service;
+    private final CartService service;
 
 
+    public CartController(CartService cartService) {
+        this.service = cartService;
+    }
+
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createNewCartByUser/{userId}")
     public ResponseEntity<?> createNewCartByUser(@PathVariable Long userId) {
         Optional<Cart> o;
@@ -108,12 +111,12 @@ public class CartController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/assignImageToCartByUserId/{userId}")
-    public ResponseEntity<?> assignImageToCart(@RequestBody Image image, @PathVariable Long userId) {
+    @PutMapping("/assignImageToCartByUserId/{userId}/{imageId}")
+    public ResponseEntity<?> assignImageToCart(@PathVariable Long userId, @PathVariable Long imageId) {
         Optional<Image> o;
 
         try {
-            o = service.assignImageToCart(image, userId);
+            o = service.assignImageToCart(imageId, userId);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Collections.singletonMap("message",

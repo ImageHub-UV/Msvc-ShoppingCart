@@ -34,14 +34,12 @@ public class CartServiceTest {
 
     @Test
     public void testCreateNewCart() {
-        User user = new User();
-        user.setId(1L);
+        User user = new User(1L, "user", "password", "user", "name", "user@email.com");
         Mockito.when(userClientRest.getUser(1L)).thenReturn(user);
 
-
-        Optional<Cart> cart = cartService.createNewCart(1L);
+        Optional <Cart> cart = cartService.createNewCart(1L);
 
         assertTrue(cart.isPresent());
-        assertEquals(1L, cart.get().getCartUser().getUserId());
+        assertEquals(1L, cart.get().getCartUser().getId());
     }
 }

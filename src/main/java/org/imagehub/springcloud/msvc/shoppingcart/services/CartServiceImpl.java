@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -71,33 +72,44 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	public void deleteCartByUserId(Long userId) {
-		repository.deleteByCartUserUserId(userId);
+	public boolean deleteCartByUserId(Long userId) {
+		Optional<Cart> o = repository.findByCartUserUserId(userId);
+		if (o.isPresent()) {
+			repository.deleteByCartUserUserId(userId);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	@Transactional
 	public Optional<Image> assignImageToCart(Long imageId, Long userId) {
 		Optional<Cart> o = repository.findByCartUserUserId(userId);
+		Cart cart;
 		if (o.isPresent()) {
-			Image imageMsvc = imageClientRest.getImage(imageId);
-
-			Cart cart = o.get();
-
-			if (cart.getCartImages().stream().anyMatch(cartImage -> cartImage.getImageId().equals(imageId))) {
-				return Optional.empty();
+			cart = o.get();
+		} else {
+			Optional<Cart> newCart = createNewCart(userId);
+			if (newCart.isPresent()) {
+				cart = newCart.get();
+			} else {
+				throw new NoSuchElementException("The user doesn't exist.");
 			}
-
-			CartImage cartImage = new CartImage();
-			cartImage.setImageId(imageMsvc.imageId());
-
-			cart.addCartImage(cartImage);
-			repository.save(cart);
-
-			return Optional.of(imageMsvc);
 		}
 
-		return Optional.empty();
+		Image imageMsvc = imageClientRest.getImage(imageId);
+
+		if (cart.getCartImages().stream().anyMatch(cartImage -> cartImage.getImageId().equals(imageId))) {
+			return Optional.empty();
+		}
+
+		CartImage cartImage = new CartImage();
+		cartImage.setImageId(imageMsvc.imageId());
+
+		cart.addCartImage(cartImage);
+		repository.save(cart);
+
+		return Optional.of(imageMsvc);
 	}
 
 	@Override
@@ -126,12 +138,35 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	public void deleteAllImagesFromCart(Long userId) {
+	public boolean deleteAllImagesFromCart(Long userId) {
 		Optional<Cart> o = repository.findByCartUserUserId(userId);
 		if (o.isPresent()) {
 			Cart cart = o.get();
 			cart.removeAllCartImages();
 			repository.save(cart);
+			return true;
 		}
+		return false;
+	}
+
+	@Override
+	@Transactional
+	public Optional<Image> getImageFromCart(Long imageId, Long userId) {
+		Optional<Cart> o = repository.findByCartUserUserId(userId);
+		if (o.isPresent()) {
+			Image imageMsvc = imageClientRest.getImage(imageId);
+
+			Cart cart = o.get();
+			CartImage cartImage = cart.getCartImages().stream()
+					.filter(ci -> ci.getImageId().equals(imageId))
+					.findFirst()
+					.orElse(null);
+
+			if (cartImage != null) {
+				return Optional.of(imageMsvc);
+			}
+		}
+
+		return Optional.empty();
 	}
 }

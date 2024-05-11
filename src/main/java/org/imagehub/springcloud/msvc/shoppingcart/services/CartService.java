@@ -16,11 +16,13 @@ public interface CartService {
 
     Optional<Cart> getCartByUserId(Long userId);
 
-    void deleteCartByUserId(Long userId);
+    boolean deleteCartByUserId(Long userId);
 
     Optional<Image> assignImageToCart(Long imageId, Long userId);
 
     Optional<Image> deleteImageFromCart(Long imageId, Long userId);
 
-    void deleteAllImagesFromCart(Long userId);
+    boolean deleteAllImagesFromCart(Long userId);
+
+    Optional<Image> getImageFromCart(Long imageId, Long userId);
 }

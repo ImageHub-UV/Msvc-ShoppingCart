@@ -44,12 +44,6 @@ public class CartController {
 		return ResponseEntity.ok(service.listCarts());
 	}
 
-	/*
-	 * public Map<String, List<Cart>> listCarts() {
-	 * return Collections.singletonMap("carts", service.listCarts());
-	 * }
-	 */
-
 	@GetMapping("/getCartByUserId/{userId}")
 	public ResponseEntity<?> getCartByUserId(@PathVariable Long userId) {
 
@@ -77,10 +71,14 @@ public class CartController {
 	@DeleteMapping("/deleteCartByUserId/{userId}")
 	public ResponseEntity<?> deleteCartByUserId(@PathVariable Long userId) {
 		try {
-			service.deleteCartByUserId(userId);
+			boolean success = service.deleteCartByUserId(userId);
+			if (!success) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message",
+						"Don't exist user with this id or the user doesn't have a cart."));
+			}
 		} catch (FeignException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message",
-					"Don't exist user with this id or error with the user service: " + e.getMessage()));
+					"Error with the user service: " + e.getMessage()));
 		}
 
 		return ResponseEntity.ok().body(Collections.singletonMap("message", "Cart deleted successfully"));
@@ -125,6 +123,9 @@ public class CartController {
 					.body(Collections.singletonMap("message",
 							"Don't exist image or user with this id or error with the image or user service: "
 									+ e.getMessage()));
+		} catch (NoSuchElementException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(Collections.singletonMap("message", e.getMessage()));
 		}
 
 		if (o.isPresent()) {
@@ -160,13 +161,39 @@ public class CartController {
 	@DeleteMapping("/deleteAllImagesFromCart/{userId}")
 	public ResponseEntity<?> deleteAllImageFromCart(@PathVariable Long userId) {
 		try {
-			service.deleteAllImagesFromCart(userId);
+			boolean success = service.deleteAllImagesFromCart(userId);
+			if (!success) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message",
+						"Don't exist user with this id or the user doesn't have a cart."));
+			}
 		} catch (FeignException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message",
-					"Don't exist user with this id or error with the user service: " + e.getMessage()));
+					"Error with the user service: " + e.getMessage()));
 		}
 
 		return ResponseEntity.ok().body(Collections.singletonMap("message", "All images deleted successfully"));
+	}
+
+	@GetMapping("/getImageFromCart/{userId}/{imageId}")
+	public ResponseEntity<?> getImageFromCart(@PathVariable Long imageId, @PathVariable Long userId) {
+		Optional<Image> o;
+
+		try {
+			o = service.getImageFromCart(imageId, userId);
+		} catch (FeignException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(Collections.singletonMap("message",
+							"Don't exist image or user with this id or error with the image or user service: "
+									+ e.getMessage()));
+		}
+
+		if (o.isPresent()) {
+			return ResponseEntity.status(HttpStatus.OK).body(o.get());
+		}
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(Collections.singletonMap("message",
+						"Don't exist image or user with this id or error with the image or user service"));
 	}
 
 	private ResponseEntity<Map<String, String>> validate(BindingResult result) {

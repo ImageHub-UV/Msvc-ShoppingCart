@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.imagehub.springcloud.msvc.shoppingcart.models.Image;
 import org.imagehub.springcloud.msvc.shoppingcart.models.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,8 @@ public class Cart {
     @JoinColumn(name = "cart_id")
     private List<CartImage> cartImages;
 
-    @Transient //This atribute is not going to be saved in the database
+    @Transient
+    @JsonIgnore
     private List<Image> images;
 
     @Transient

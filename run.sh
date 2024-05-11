@@ -6,7 +6,7 @@ database_file="postgresql.yaml"
 application_file="shopping_cart.yaml"
 
 
-if [ ! -f $database_file ]; then
+if [ ! -f $endopints_file]; then
 	echo -e "Error: endpoint configuration file ($endopints_file) not found"
 	exit 1
 fi

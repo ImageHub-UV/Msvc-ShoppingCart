@@ -20,7 +20,7 @@ public interface CartService {
 
     Optional<Image> assignImageToCart(Long imageId, Long userId);
 
-    Optional<Image> deleteImageFromCart(Image image, Long userId);
+    Optional<Image> deleteImageFromCart(Long imageId, Long userId);
 
     void deleteAllImagesFromCart(Long userId);
 }

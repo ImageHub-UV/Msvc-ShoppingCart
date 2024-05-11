@@ -1,14 +1,20 @@
 package org.imagehub.springcloud.msvc.shoppingcart.models;
 
+import java.util.List;
+import org.imagehub.springcloud.msvc.shoppingcart.models.Category;
 
 public record Image(
-    Long image_id,
-    Long image_creator,
-    String image_name,
-    String image_description,
-    String image_format,
-    Double image_price,
-    Boolean image_is_free
-) {
+		Long imageId,
+		Long creator,
+		String src,
+		String name,
+		String description,
+		String format,
+		Double price,
+		Boolean isFree,
+		Boolean isDefault,
+		Long width,
+		Long height,
+		List<Category> categories) {
 
 }

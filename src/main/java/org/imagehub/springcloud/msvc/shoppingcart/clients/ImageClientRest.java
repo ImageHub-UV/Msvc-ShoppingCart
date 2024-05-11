@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-@FeignClient(name="images-service-service", url="192.168.49.2:31445") // Have to be identical to the name of the service
+@FeignClient(name="images-service-service") // Have to be identical to the name of the service
 public interface ImageClientRest  {
     @GetMapping("/api/Image/get-image-by-id?id={id}") //Have to be identical to the path of the service
     Image getImage(@PathVariable Long id);

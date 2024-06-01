@@ -10,8 +10,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 public class MsvcShoppingcartApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MsvcShoppingcartApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MsvcShoppingcartApplication.class, args);
+    }
 
 }

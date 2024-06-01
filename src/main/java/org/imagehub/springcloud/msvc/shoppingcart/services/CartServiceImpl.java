@@ -17,156 +17,156 @@ import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
-	private CartRepository repository;
-	private ImageClientRest imageClientRest;
-	private UserClientRest userClientRest;
+    private CartRepository repository;
+    private ImageClientRest imageClientRest;
+    private UserClientRest userClientRest;
 
-	public CartServiceImpl(CartRepository repository,
-			ImageClientRest imageClientRest,
-			UserClientRest userClientRest) {
-		this.repository = repository;
-		this.imageClientRest = imageClientRest;
-		this.userClientRest = userClientRest;
-	}
+    public CartServiceImpl(CartRepository repository,
+            ImageClientRest imageClientRest,
+            UserClientRest userClientRest) {
+        this.repository = repository;
+        this.imageClientRest = imageClientRest;
+        this.userClientRest = userClientRest;
+    }
 
-	@Override
-	@Transactional()
-	public Optional<Cart> createNewCart(Long userId) {
+    @Override
+    @Transactional()
+    public Optional<Cart> createNewCart(Long userId) {
 
-		Optional<Cart> existingCart = repository.findByCartUserUserId(userId);
-		if (existingCart.isPresent()) {
-			return existingCart;
-		}
+        Optional<Cart> existingCart = repository.findByCartUserUserId(userId);
+        if (existingCart.isPresent()) {
+            return existingCart;
+        }
 
-		Cart cart = new Cart();
+        Cart cart = new Cart();
 
-		User userMvsc = userClientRest.getUser(userId);
+        User userMvsc = userClientRest.getUser(userId);
 
-		CartUser cartUser = new CartUser();
-		cartUser.setUserId(userMvsc.id());
+        CartUser cartUser = new CartUser();
+        cartUser.setUserId(userMvsc.id());
 
-		cart.setCartUser(cartUser);
+        cart.setCartUser(cartUser);
 
-		repository.save(cart);
+        repository.save(cart);
 
-		return Optional.of(cart);
-	}
+        return Optional.of(cart);
+    }
 
-	@Override
-	@Transactional
-	public Cart saveCart(Cart cart) {
-		return repository.save(cart);
-	}
+    @Override
+    @Transactional
+    public Cart saveCart(Cart cart) {
+        return repository.save(cart);
+    }
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Cart> listCarts() {
-		return (List<Cart>) repository.findAll();
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<Cart> listCarts() {
+        return (List<Cart>) repository.findAll();
+    }
 
-	@Override
-	@Transactional(readOnly = true)
-	public Optional<Cart> getCartByUserId(Long userId) {
-		return repository.findByCartUserUserId(userId);
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Cart> getCartByUserId(Long userId) {
+        return repository.findByCartUserUserId(userId);
+    }
 
-	@Override
-	@Transactional
-	public boolean deleteCartByUserId(Long userId) {
-		Optional<Cart> o = repository.findByCartUserUserId(userId);
-		if (o.isPresent()) {
-			repository.deleteByCartUserUserId(userId);
-			return true;
-		}
-		return false;
-	}
+    @Override
+    @Transactional
+    public boolean deleteCartByUserId(Long userId) {
+        Optional<Cart> o = repository.findByCartUserUserId(userId);
+        if (o.isPresent()) {
+            repository.deleteByCartUserUserId(userId);
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	@Transactional
-	public Optional<Image> assignImageToCart(Long imageId, Long userId) {
-		Optional<Cart> o = repository.findByCartUserUserId(userId);
-		Cart cart;
-		if (o.isPresent()) {
-			cart = o.get();
-		} else {
-			Optional<Cart> newCart = createNewCart(userId);
-			if (newCart.isPresent()) {
-				cart = newCart.get();
-			} else {
-				throw new NoSuchElementException("The user doesn't exist.");
-			}
-		}
+    @Override
+    @Transactional
+    public Optional<Image> assignImageToCart(Long imageId, Long userId) {
+        Optional<Cart> o = repository.findByCartUserUserId(userId);
+        Cart cart;
+        if (o.isPresent()) {
+            cart = o.get();
+        } else {
+            Optional<Cart> newCart = createNewCart(userId);
+            if (newCart.isPresent()) {
+                cart = newCart.get();
+            } else {
+                throw new NoSuchElementException("The user doesn't exist.");
+            }
+        }
 
-		Image imageMsvc = imageClientRest.getImage(imageId);
+        Image imageMsvc = imageClientRest.getImage(imageId);
 
-		if (cart.getCartImages().stream().anyMatch(cartImage -> cartImage.getImageId().equals(imageId))) {
-			return Optional.empty();
-		}
+        if (cart.getCartImages().stream().anyMatch(cartImage -> cartImage.getImageId().equals(imageId))) {
+            return Optional.empty();
+        }
 
-		CartImage cartImage = new CartImage();
-		cartImage.setImageId(imageMsvc.imageId());
+        CartImage cartImage = new CartImage();
+        cartImage.setImageId(imageMsvc.imageId());
 
-		cart.addCartImage(cartImage);
-		repository.save(cart);
+        cart.addCartImage(cartImage);
+        repository.save(cart);
 
-		return Optional.of(imageMsvc);
-	}
+        return Optional.of(imageMsvc);
+    }
 
-	@Override
-	@Transactional
-	public Optional<Image> deleteImageFromCart(Long imageId, Long userId) {
-		Optional<Cart> o = repository.findByCartUserUserId(userId);
-		if (o.isPresent()) {
-			Image imageMsvc = imageClientRest.getImage(imageId);
+    @Override
+    @Transactional
+    public Optional<Image> deleteImageFromCart(Long imageId, Long userId) {
+        Optional<Cart> o = repository.findByCartUserUserId(userId);
+        if (o.isPresent()) {
+            Image imageMsvc = imageClientRest.getImage(imageId);
 
-			Cart cart = o.get();
-			CartImage cartImage = cart.getCartImages().stream()
-					.filter(ci -> ci.getImageId().equals(imageId))
-					.findFirst()
-					.orElse(null);
+            Cart cart = o.get();
+            CartImage cartImage = cart.getCartImages().stream()
+                    .filter(ci -> ci.getImageId().equals(imageId))
+                    .findFirst()
+                    .orElse(null);
 
-			if (cartImage != null) {
-				cart.removeCartImage(cartImage);
-				repository.save(cart);
+            if (cartImage != null) {
+                cart.removeCartImage(cartImage);
+                repository.save(cart);
 
-				return Optional.of(imageMsvc);
-			}
-		}
+                return Optional.of(imageMsvc);
+            }
+        }
 
-		return Optional.empty();
-	}
+        return Optional.empty();
+    }
 
-	@Override
-	@Transactional
-	public boolean deleteAllImagesFromCart(Long userId) {
-		Optional<Cart> o = repository.findByCartUserUserId(userId);
-		if (o.isPresent()) {
-			Cart cart = o.get();
-			cart.removeAllCartImages();
-			repository.save(cart);
-			return true;
-		}
-		return false;
-	}
+    @Override
+    @Transactional
+    public boolean deleteAllImagesFromCart(Long userId) {
+        Optional<Cart> o = repository.findByCartUserUserId(userId);
+        if (o.isPresent()) {
+            Cart cart = o.get();
+            cart.removeAllCartImages();
+            repository.save(cart);
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	@Transactional
-	public Optional<Image> getImageFromCart(Long imageId, Long userId) {
-		Optional<Cart> o = repository.findByCartUserUserId(userId);
-		if (o.isPresent()) {
-			Image imageMsvc = imageClientRest.getImage(imageId);
+    @Override
+    @Transactional
+    public Optional<Image> getImageFromCart(Long imageId, Long userId) {
+        Optional<Cart> o = repository.findByCartUserUserId(userId);
+        if (o.isPresent()) {
+            Image imageMsvc = imageClientRest.getImage(imageId);
 
-			Cart cart = o.get();
-			CartImage cartImage = cart.getCartImages().stream()
-					.filter(ci -> ci.getImageId().equals(imageId))
-					.findFirst()
-					.orElse(null);
+            Cart cart = o.get();
+            CartImage cartImage = cart.getCartImages().stream()
+                    .filter(ci -> ci.getImageId().equals(imageId))
+                    .findFirst()
+                    .orElse(null);
 
-			if (cartImage != null) {
-				return Optional.of(imageMsvc);
-			}
-		}
+            if (cartImage != null) {
+                return Optional.of(imageMsvc);
+            }
+        }
 
-		return Optional.empty();
-	}
+        return Optional.empty();
+    }
 }

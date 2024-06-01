@@ -6,7 +6,7 @@ import org.imagehub.springcloud.msvc.shoppingcart.models.User;
 
 
 public record Users(
-						List <User> users
+                        List <User> users
 ) {
 
 }

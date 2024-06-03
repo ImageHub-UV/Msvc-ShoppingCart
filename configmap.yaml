@@ -8,6 +8,3 @@ data:
   database: "msvc_shoppingcart"
   username: "postgres"
   password: "root"
-  msvc_users_url: "msvc-users:8001"
-  msvc_images_url: "msvc-images:8003"
-  active_profile: "dev"

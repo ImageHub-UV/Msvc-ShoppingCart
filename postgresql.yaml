@@ -19,24 +19,22 @@ spec:
             - containerPort: 5432
           env:
             - name: POSTGRES_PASSWORD
-              # valueFrom:
-              #   configMapKeyRef:
-              #     name: msvc-shoppingcart
-              #     key: password
-              value: "root"
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-shoppingcart
+                  key: password
             - name: POSTGRES_DB
-              # valueFrom:
-              #   configMapKeyRef:
-              #     name: msvc-shoppingcart
-              #     key: database
-              value: "msvc_shoppingcart"
-      #     volumeMounts:
-      #       - name: data-postgres
-      #         mountPath: /var/lib/postgresql/data
-      # volumes:
-      #   - name: data-postgres
-      #     persistentVolumeClaim:
-      #       claimName: postgres-pvc
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-shoppingcart
+                  key: database
+          volumeMounts:
+            - name: data-postgres
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data-postgres
+          persistentVolumeClaim:
+            claimName: postgres-pvc
 
 ---
 apiVersion: v1
@@ -45,41 +43,39 @@ metadata:
   name: postgres14
 spec:
   ports:
-    - port : 5432
+    - port: 5432
       protocol: TCP
       targetPort: 5432
   selector:
     app: postgres
   type: ClusterIP
 
-# ---
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /var/lib/postgres/data
+    type: DirectoryOrCreate
 
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: postgres-pv
-# spec:
-#   capacity:
-#     storage: 1Gi
-#   volumeMode: Filesystem
-#   storageClassName: standard # It's possible to see in `kubectl get sc`
-#   accessModes:
-#     - ReadWriteOnce
-#   hostPath:
-#     path: /var/lib/postgres/data
-#     type: DirectoryOrCreate
-
-# ---
-
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: postgres-pvc
-# spec:
-#   volumeName: postgres-pv
-#   accessModes:
-#     - ReadWriteOnce
-#   storageClassName: standard
-#   resources:
-#     requests:
-#       storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  volumeName: postgres-pv
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 1Gi

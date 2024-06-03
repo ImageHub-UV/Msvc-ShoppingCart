@@ -5,9 +5,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-@FeignClient(name="images-service-service") // Have to be identical to the name of the service
-public interface ImageClientRest  {
-    @GetMapping("/api/Image/get-image-by-id?id={id}") //Have to be identical to the path of the service
+@FeignClient(name = "msvc-gateway", contextId = "imageClient")
+public interface ImageClientRest {
+    @GetMapping("/api/images/api/Image/get-image-by-id?id={id}")
     Image getImage(@PathVariable Long id);
 }

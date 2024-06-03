@@ -1,0 +1,136 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Shopping",
+    "collectionId": "989efb02-b18d-4e31-bea1-2319d48a5db8",
+    "dateExported": "2024-05-18T15:56:44.332Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "65359527-927b-4233-8274-4ab039c00389",
+            "name": "Get",
+            "containerId": "",
+            "created": "2024-05-18T15:50:32.849Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "5d23e1f3-265b-4328-8113-3b7dc5588473",
+            "name": "PUT",
+            "containerId": "",
+            "created": "2024-05-18T15:50:36.642Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "47a7991f-e365-4cea-b6ac-1cbb7a9e5e01",
+            "name": "POST",
+            "containerId": "",
+            "created": "2024-05-18T15:50:41.970Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "4af9302a-0d3d-412b-b6d2-cbf1cd478fbb",
+            "name": "DELETE",
+            "containerId": "",
+            "created": "2024-05-18T15:50:45.751Z",
+            "sortNum": 40000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "74502136-9764-447c-9a1e-d20c30319a41",
+            "colId": "989efb02-b18d-4e31-bea1-2319d48a5db8",
+            "containerId": "47a7991f-e365-4cea-b6ac-1cbb7a9e5e01",
+            "name": "Create new cart by user",
+            "url": "{{PA",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-05-18T15:51:05.294Z",
+            "modified": "2024-05-18T15:51:19.767Z",
+            "headers": []
+        },
+        {
+            "_id": "38816d99-43bf-4a8a-b757-37de776c27cb",
+            "colId": "989efb02-b18d-4e31-bea1-2319d48a5db8",
+            "containerId": "65359527-927b-4233-8274-4ab039c00389",
+            "name": "Get all shopping carts",
+            "url": "{{PATH_SHOPPING}}/",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-05-18T15:52:34.591Z",
+            "modified": "2024-05-18T15:52:53.973Z",
+            "headers": []
+        },
+        {
+            "_id": "69d86289-6cf6-4779-bb8f-8803143574b6",
+            "colId": "989efb02-b18d-4e31-bea1-2319d48a5db8",
+            "containerId": "65359527-927b-4233-8274-4ab039c00389",
+            "name": "Get cart by user id",
+            "url": "",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-05-18T15:53:05.031Z",
+            "modified": "2024-05-18T15:53:05.031Z",
+            "headers": []
+        },
+        {
+            "_id": "9d3720b2-3560-46a9-85e5-880c8ce0a25b",
+            "colId": "989efb02-b18d-4e31-bea1-2319d48a5db8",
+            "containerId": "4af9302a-0d3d-412b-b6d2-cbf1cd478fbb",
+            "name": "DeleteCartByUserId",
+            "url": "",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-05-18T15:53:33.987Z",
+            "modified": "2024-05-18T15:53:33.987Z",
+            "headers": []
+        },
+        {
+            "_id": "e6a4843f-2551-46b9-a42b-1749ae040f48",
+            "colId": "989efb02-b18d-4e31-bea1-2319d48a5db8",
+            "containerId": "5d23e1f3-265b-4328-8113-3b7dc5588473",
+            "name": "Assign image to cart by user id",
+            "url": "",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2024-05-18T15:54:37.182Z",
+            "modified": "2024-05-18T15:54:37.183Z",
+            "headers": []
+        },
+        {
+            "_id": "01cd1f85-6e7f-4170-bdad-f795f25e423d",
+            "colId": "989efb02-b18d-4e31-bea1-2319d48a5db8",
+            "containerId": "4af9302a-0d3d-412b-b6d2-cbf1cd478fbb",
+            "name": "Delete image from cart",
+            "url": "",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-05-18T15:55:07.800Z",
+            "modified": "2024-05-18T15:55:07.800Z",
+            "headers": []
+        },
+        {
+            "_id": "d983996a-db70-41a0-a6b7-5b83d7e6738c",
+            "colId": "989efb02-b18d-4e31-bea1-2319d48a5db8",
+            "containerId": "4af9302a-0d3d-412b-b6d2-cbf1cd478fbb",
+            "name": "Delete all images from cart",
+            "url": "",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2024-05-18T15:55:42.869Z",
+            "modified": "2024-05-18T15:55:42.869Z",
+            "headers": []
+        },
+        {
+            "_id": "6542388f-cd0b-4c81-bdaf-aed6ce4373ae",
+            "colId": "989efb02-b18d-4e31-bea1-2319d48a5db8",
+            "containerId": "65359527-927b-4233-8274-4ab039c00389",
+            "name": "Get Image from cart",
+            "url": "",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2024-05-18T15:56:20.965Z",
+            "modified": "2024-05-18T15:56:20.965Z",
+            "headers": []
+        }
+    ],
+    "ref": "i2c34sxQNCcwqKf1bfmHYk-NW81pgvhC0y9xyTrwWdbcv-oomcWvQB2Qd4Nx-dYsBGBbMos6M5TGYlKEEe2vxg"
+}

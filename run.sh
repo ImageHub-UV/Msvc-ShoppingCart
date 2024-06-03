@@ -2,12 +2,18 @@
 
 
 endopints_file="endpoints.yaml"
+config_file="configmap.yaml"
 database_file="postgresql.yaml"
 application_file="shopping_cart.yaml"
 
 
 if [ ! -f $endopints_file ]; then
     echo -e "Error: endpoint configuration file ($endopints_file) not found"
+    exit 1
+fi
+
+if [ ! -f $config_file ]; then
+    echo -e "Error: configMap file ($config_file) not found"
     exit 1
 fi
 

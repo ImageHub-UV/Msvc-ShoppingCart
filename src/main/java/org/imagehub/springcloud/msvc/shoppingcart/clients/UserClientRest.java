@@ -5,8 +5,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "user-msvc-service")// Have to be identical to the name of the service
+@FeignClient(name = "msvc-gateway", contextId = "userClient")
 public interface UserClientRest {
-    @GetMapping("/user/do/{id}") //Have to be identical to the path of the service
+    @GetMapping("/api/user/user/do/{id}")
     User getUser(@PathVariable Long id);
 }
